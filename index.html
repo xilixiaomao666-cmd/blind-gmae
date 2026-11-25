@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>看不见的油锅 · 盲人炸薯条</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -210,6 +210,91 @@
   .stats span { display: block; font-size: 11px; color: #7893a5; letter-spacing: 2px; margin-bottom: 6px; }
   .stats b { font-size: 20px; color: #e9f4fa; letter-spacing: 1px; }
   .rating { font-size: 15px; color: #ffcf7a; letter-spacing: 3px; margin-bottom: 26px; }
+  /* ================= 手机端 ================= */
+  html, body { overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+  #c { touch-action: none; }
+  #mobileUI { position: fixed; inset: 0; z-index: 30; display: none; pointer-events: none; }
+  body.touch.playing #mobileUI { display: block; }
+  #joy {
+    position: absolute; left: calc(12px + env(safe-area-inset-left)); bottom: calc(12px + env(safe-area-inset-bottom));
+    width: 96px; height: 96px; border-radius: 50%; pointer-events: auto; touch-action: none;
+    background: radial-gradient(circle at 50% 50%, rgba(120,200,230,.10), rgba(8,16,26,.35));
+    border: 1px solid rgba(127,214,232,.35); box-shadow: inset 0 0 30px rgba(90,210,240,.08);
+  }
+  #joyKnob {
+    position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px;
+    border-radius: 50%; background: rgba(127,214,232,.35); border: 1px solid rgba(180,235,250,.7);
+    box-shadow: 0 0 18px rgba(95,210,234,.45); transition: transform .06s linear;
+  }
+  #mBtns {
+    position: absolute; right: calc(12px + env(safe-area-inset-right)); bottom: calc(12px + env(safe-area-inset-bottom));
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px; pointer-events: none;
+  }
+  .mrow { display: flex; gap: 8px; pointer-events: none; }
+  .mbtn {
+    pointer-events: auto; touch-action: none; -webkit-user-select: none; user-select: none;
+    -webkit-appearance: none; appearance: none;
+    font-family: inherit; color: #d3ebf6; background: rgba(8,16,26,.55);
+    border: 1px solid rgba(127,214,232,.35); border-radius: 14px;
+    backdrop-filter: blur(6px); cursor: pointer;
+  }
+  .mbtn.small { font-size: 11px; padding: 6px 9px; letter-spacing: 1px; border-radius: 11px; }
+  .mbtn.act {
+    width: 70px; height: 70px; border-radius: 50%; font-size: 12px; letter-spacing: 1px;
+    background: radial-gradient(circle at 50% 38%, rgba(255,180,72,.30), rgba(8,16,26,.55));
+    border-color: rgba(255,180,70,.5);
+  }
+  .mbtn.act.on { background: radial-gradient(circle at 50% 38%, rgba(255,180,72,.55), rgba(8,16,26,.6)); }
+  #rotate {
+    position: fixed; inset: 0; z-index: 120; display: none; flex-direction: column;
+    align-items: center; justify-content: center; gap: 18px; background: #05090d;
+    color: #d3ebf6; text-align: center; padding: 24px;
+  }
+  body.touch.portrait #rotate { display: flex; }
+  #rotate .phone {
+    width: 64px; height: 108px; border: 2px solid #7fd6e8; border-radius: 12px;
+    animation: rot 1.6s ease-in-out infinite;
+  }
+  #rotate b { font-size: 20px; letter-spacing: 3px; font-weight: 700; }
+  #rotate span { font-size: 13px; color: #93aab8; }
+  @keyframes rot { 0%, 35% { transform: rotate(0deg); } 65%, 100% { transform: rotate(90deg); } }
+  body.touch #legend, body.touch .keys { display: none; }
+  body.touch #btnSonar { display: none; }
+  body.touch #subtitle { bottom: calc(104px + env(safe-area-inset-bottom)); font-size: 13px; max-width: 76vw; padding: 8px 16px; }
+  @media (pointer: coarse) {
+    .card { width: min(92vw, 640px); padding: 22px 20px; border-radius: 16px; }
+    h1 { font-size: 32px; letter-spacing: 5px; }
+    .desc { font-size: 13px; line-height: 1.6; }
+    .note { font-size: 11px; margin-top: 10px; }
+    #startBtn { margin-top: 12px; }
+  }
+  @media (max-height: 430px) {
+    #joy { width: 96px; height: 96px; }
+    #joyKnob { width: 40px; height: 40px; margin: -20px 0 0 -20px; }
+    .mbtn.act { width: 70px; height: 70px; font-size: 12px; }
+    .mbtn.small { font-size: 11px; padding: 6px 9px; }
+    .overlay { padding: 8px; }
+    .overlay .card { max-height: 94vh; overflow-y: auto; }
+    .card { padding: 12px 14px; }
+    .tag { margin-bottom: 6px; padding: 3px 10px; }
+    h1 { font-size: 22px; letter-spacing: 4px; margin-bottom: 4px; }
+    .en { margin-bottom: 6px; }
+    .desc { font-size: 12px; line-height: 1.45; margin-bottom: 8px; }
+    .keys { margin-bottom: 8px; }
+    button { padding: 9px 24px; font-size: 14px; }
+    .note { margin-top: 6px; line-height: 1.5; }
+    #endTitle { font-size: 22px; }
+    .reason { margin-bottom: 8px; }
+    .stats { margin-bottom: 8px; }
+    .stats div { padding: 7px 8px; }
+    .stats span { margin-bottom: 3px; }
+    .stats b { font-size: 15px; }
+    .rating { margin-bottom: 10px; }
+    .pausetip h3 { font-size: 20px; margin-bottom: 6px; }
+    #prompt { bottom: 96px; font-size: 15px; padding: 8px 18px; }
+    body.touch #subtitle { bottom: calc(92px + env(safe-area-inset-bottom)); }
+  }
+
 </style>
 </head>
 <body>
@@ -236,6 +321,20 @@
 </div>
 <div id="prompt"></div>
 <div id="subtitle"></div>
+<div id="rotate"><div class="phone"></div><b>请横屏游玩</b><span>把手机转过来，画面会自动切换</span></div>
+<div id="mobileUI">
+  <div id="joy"><div id="joyKnob"></div></div>
+  <div id="mBtns">
+    <div class="mrow">
+      <button id="btnSonar" class="mbtn small">声呐</button>
+      <button id="btnGuide" class="mbtn small">引导</button>
+      <button id="btnMute" class="mbtn small">静音</button>
+      <button id="btnPause" class="mbtn small">暂停</button>
+    </div>
+    <button id="btnAct" class="mbtn act">互动</button>
+  </div>
+</div>
+
 
 <div id="start" class="overlay">
   <div class="card">
@@ -303,6 +402,8 @@ return {ACESFilmicToneMapping:nt,AddEquation:M,AddOperation:K,AdditiveAnimationB
 const $ = (id) => document.getElementById(id);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+const IS_TOUCH = (navigator.maxTouchPoints || 0) > 0 && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+let joyF = 0, joyR = 0;
 
 /* ================= 渲染器 / 场景 ================= */
 const canvas = $('c');
@@ -762,20 +863,8 @@ function toggleMute() {
   master.gain.setTargetAtTime(muted ? 0 : 0.85, AC.currentTime, 0.05);
 }
 
-/* ================= 语音 / 字幕 ================= */
-let voiceZh = null;
-let lastSay = { text: '', t: 0 };
+/* ================= 字幕 ================= */
 let subTimer = 0;
-
-function loadVoices() {
-  if (!window.speechSynthesis) return;
-  const vs = window.speechSynthesis.getVoices() || [];
-  voiceZh = vs.find((v) => /zh[-_]CN/i.test(v.lang)) || vs.find((v) => /^zh/i.test(v.lang)) || null;
-}
-if (window.speechSynthesis) {
-  window.speechSynthesis.onvoiceschanged = loadVoices;
-  loadVoices();
-}
 
 function showSub(text, ms = 4200) {
   subtitleEl.textContent = text;
@@ -786,21 +875,11 @@ function showSub(text, ms = 4200) {
 
 function say(text) {
   showSub(text, Math.max(4200, text.length * 210));
-  const now = performance.now();
-  if (text === lastSay.text && now - lastSay.t < 2500) return;
-  lastSay = { text, t: now };
-  if (!window.speechSynthesis) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'zh-CN';
-  u.rate = 1.05;
-  u.pitch = 1.0;
-  u.volume = 0.92;
-  if (voiceZh) u.voice = voiceZh;
-  window.speechSynthesis.speak(u);
 }
 
 /* ================= 声呐脉冲 / 油滴粒子 ================= */
 let reveal = 0, pulseT = 99;
+let sonarPingT = -99; /* 手机端自动声呐计时 */
 const ringMat = new THREE.MeshBasicMaterial({
   color: 0xb9c6cc, transparent: true, opacity: 0,
   side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false
@@ -1220,8 +1299,9 @@ function onRelease() {
 let stepT = 0, guideT = 0.8;
 
 function updateMovement(dt) {
-  const f = (keys['KeyW'] ? 1 : 0) - (keys['KeyS'] ? 1 : 0);
-  const r = (keys['KeyD'] ? 1 : 0) - (keys['KeyA'] ? 1 : 0);
+  let f = (keys['KeyW'] ? 1 : 0) - (keys['KeyS'] ? 1 : 0);
+  let r = (keys['KeyD'] ? 1 : 0) - (keys['KeyA'] ? 1 : 0);
+  if (IS_TOUCH) { f += joyF; r += joyR; }
   let moving = false;
   if (f || r) {
     moving = true;
@@ -1640,13 +1720,14 @@ function updateHud() {
   } else if (f) {
     p = '<span class="tagf">' + CN[f] + '</span>现在还用不上';
   }
-  promptEl.innerHTML = p || '空格：声呐显形 · 靠近发光的目标按左键';
+  promptEl.innerHTML = p || (IS_TOUCH ? '自动声呐显形 · 靠近发光的目标按住“互动”' : '空格：声呐显形 · 靠近发光的目标按左键');
   promptEl.style.opacity = p ? '1' : '0.6';
 }
 
 /* ================= 主循环 ================= */
 function update(dt) {
   G.time += dt;
+  if (IS_TOUCH && G.time - sonarPingT >= 1) { sonarPingT = G.time; sonar(); }
   trauma = Math.max(0, trauma - dt * 1.6);
 
   G.focus = computeFocus();
@@ -1684,6 +1765,7 @@ requestAnimationFrame(frame);
 
 /* ================= 开始 / 暂停 ================= */
 function requestLock() {
+  if (IS_TOUCH) return;
   try {
     const p = canvas.requestPointerLock && canvas.requestPointerLock();
     if (p && p.catch) p.catch(() => {});
@@ -1703,6 +1785,16 @@ $('startBtn').addEventListener('click', () => {
   initAudio();
   updateHearts();
   updateScore();
+  if (IS_TOUCH) {
+    try {
+      const rq = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+      if (rq && rq.catch) rq.catch(() => {});
+    } catch (e) {}
+    try {
+      if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {});
+    } catch (e) {}
+    document.body.classList.add('playing');
+  }
   requestLock();
   say('你在厨房里，眼前一片漆黑。别慌，左手边是油瓶。按住左键倒油，听音调变高，叮一声就松手。');
 });
@@ -1710,10 +1802,17 @@ $('startBtn').addEventListener('click', () => {
 $('againBtn').addEventListener('click', () => location.reload());
 
 pauseEl.addEventListener('click', () => {
-  if (G.started && !G.ended) requestLock();
+  if (!G.started || G.ended) return;
+  if (IS_TOUCH) {
+    G.paused = false;
+    pauseEl.classList.add('hidden');
+  } else {
+    requestLock();
+  }
 });
 
 document.addEventListener('pointerlockchange', () => {
+  if (IS_TOUCH) return;
   if (!G.started || G.ended) return;
   const locked = document.pointerLockElement === canvas;
   G.paused = !locked;
@@ -1767,6 +1866,161 @@ document.addEventListener('mouseup', (e) => {
 });
 
 document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+/* ================= 手机端输入 ================= */
+if (IS_TOUCH) {
+  document.body.classList.add('touch');
+
+  const joyEl = $('joy'), knobEl = $('joyKnob');
+  let joyId = null;
+  function applyJoy(e) {
+    const r = joyEl.getBoundingClientRect();
+    let dx = e.clientX - (r.left + r.width / 2);
+    let dy = e.clientY - (r.top + r.height / 2);
+    const max = r.width / 2 - 24;
+    const len = Math.hypot(dx, dy);
+    if (len > max) { dx = dx / len * max; dy = dy / len * max; }
+    knobEl.style.transform = `translate(${dx}px, ${dy}px)`;
+    joyR = dx / max;
+    joyF = -dy / max;
+  }
+  function resetJoy() {
+    joyId = null;
+    joyF = 0; joyR = 0;
+    knobEl.style.transform = 'translate(0px, 0px)';
+  }
+  joyEl.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    joyId = e.pointerId;
+    try { joyEl.setPointerCapture(joyId); } catch (err) {}
+    applyJoy(e);
+  });
+  joyEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== joyId) return;
+    e.preventDefault();
+    applyJoy(e);
+  });
+  joyEl.addEventListener('pointerup', (e) => { if (e.pointerId === joyId) resetJoy(); });
+  joyEl.addEventListener('pointercancel', resetJoy);
+
+  let lookId = null, lookX = 0, lookY = 0;
+  const pts = new Map();
+  let pinchD0 = 0, pinchFov0 = 64;
+  function pinchDist() {
+    const it = pts.values();
+    const a = it.next().value, b = it.next().value;
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+  canvas.addEventListener('pointerdown', (e) => {
+    if (!G.started || G.ended || G.paused) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    if (pts.size === 1) {
+      lookId = e.pointerId;
+      lookX = e.clientX; lookY = e.clientY;
+    } else if (pts.size === 2) {
+      pinchD0 = pinchDist();
+      pinchFov0 = camera.fov;
+      lookId = null;
+    }
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    const p = pts.get(e.pointerId);
+    if (!p) return;
+    p.x = e.clientX; p.y = e.clientY;
+    if (pts.size >= 2) {
+      const d = pinchDist();
+      if (pinchD0 > 0 && d > 0) {
+        camera.fov = clamp(pinchFov0 * pinchD0 / d, 28, 95);
+        camera.updateProjectionMatrix();
+      }
+    } else if (e.pointerId === lookId) {
+      yaw -= (e.clientX - lookX) * 0.005;
+      pitch = clamp(pitch - (e.clientY - lookY) * 0.005, -1.35, 1.2);
+      lookX = e.clientX; lookY = e.clientY;
+    }
+  });
+  function endLook(e) {
+    pts.delete(e.pointerId);
+    if (e.pointerId === lookId) lookId = null;
+    if (pts.size === 1) {
+      const n = pts.entries().next().value;
+      lookId = n[0]; lookX = n[1].x; lookY = n[1].y;
+    }
+    if (pts.size < 2) pinchD0 = 0;
+  }
+  canvas.addEventListener('pointerup', endLook);
+  canvas.addEventListener('pointercancel', endLook);
+
+  const actEl = $('btnAct');
+  function actDown(e) {
+    e.preventDefault();
+    if (G.paused) return;
+    actEl.classList.add('on');
+    lmb = true;
+    onPress();
+  }
+  function actUp() {
+    actEl.classList.remove('on');
+    if (lmb) { lmb = false; onRelease(); }
+  }
+  actEl.addEventListener('pointerdown', actDown);
+  actEl.addEventListener('pointerup', actUp);
+  actEl.addEventListener('pointercancel', actUp);
+  actEl.addEventListener('pointerleave', actUp);
+
+  $('btnSonar').addEventListener('click', () => sonar());
+  $('btnGuide').addEventListener('click', () => {
+    guideOn = !guideOn;
+    tone(guideOn ? 900 : 400, 0.08, 0.08);
+  });
+  $('btnMute').addEventListener('click', () => toggleMute());
+  $('btnPause').addEventListener('click', () => {
+    if (!G.started || G.ended) return;
+    G.paused = true;
+    lmb = false;
+    resetJoy();
+    stopApproach();
+    G.approaching = false;
+    G.approachT = 0;
+    stopAllLoops();
+    pauseEl.classList.remove('hidden');
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && G.started && !G.ended) {
+      G.paused = true;
+      lmb = false;
+      stopApproach();
+      stopAllLoops();
+      pauseEl.classList.remove('hidden');
+    }
+  });
+
+  const noteEl = startEl.querySelector('.note');
+  if (noteEl) noteEl.innerHTML = '横屏游玩 · 完全离线运行<br>烫到手会扣命：红闪、剧震、油爆声、语音惨叫——记得去水龙头冲冷水';
+  const pauseTipEl = pauseEl.querySelector('p');
+  if (pauseTipEl) pauseTipEl.textContent = '点击画面继续 · 自动声呐显形 · 双指捏合缩放';
+
+  function updateOrientation() {
+    const portrait = window.innerHeight > window.innerWidth;
+    document.body.classList.toggle('portrait', portrait);
+    if (portrait && G.started && !G.ended && !G.paused) {
+      G.paused = true;
+      lmb = false;
+      resetJoy();
+      stopApproach();
+      G.approaching = false;
+      G.approachT = 0;
+      stopAllLoops();
+      pauseEl.classList.remove('hidden');
+    }
+  }
+  updateOrientation();
+  window.addEventListener('orientationchange', updateOrientation);
+  window.addEventListener('resize', updateOrientation);
+}
+
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
